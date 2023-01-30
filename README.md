@@ -1,1 +1,1 @@
-# contentful-customer-registration-portal
+# Contentful: Customer registration portal
