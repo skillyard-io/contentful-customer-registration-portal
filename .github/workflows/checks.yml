@@ -16,6 +16,6 @@ jobs:
         run: |
           curl https://github.com/skillyard-io/tests/archive/refs/heads/main.zip -o skillyard-io-tests.zip
           ls -la
-          apt-get install unzip
+          sudo apt-get install unzip
           unzip file.zip -d skillyard-io-tests
           ls -la
