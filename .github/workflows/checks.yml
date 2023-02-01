@@ -20,6 +20,7 @@ jobs:
           node-version: 18.12.0
       - name: Setup Skillyard tests repository
         run: |
+          ls -la
           cd skillyard-io-tests/react-frontend-engineer/stages/fundamentals-of-web-technologies/contentful-customer-registration-portal
           yarn
           yarn playwright install --with-deps
