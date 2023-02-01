@@ -15,9 +15,9 @@ jobs:
       - name: Download Skillyard test repository
         run: |
           curl https://github.com/skillyard-io/tests/archive/refs/heads/main.zip -o skillyard-io-tests.zip
-          ls -la
           sudo apt-get install unzip
-          unzip skillyard-io-tests.zip -d skillyard-io-tests
+          ls -la
+          unzip ./skillyard-io-tests.zip -d skillyard-io-tests
           ls -la
       - name: Setup Skillyard tests repository
         run: |
