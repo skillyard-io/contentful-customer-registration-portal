@@ -17,5 +17,11 @@ jobs:
           curl https://github.com/skillyard-io/tests/archive/refs/heads/main.zip -o skillyard-io-tests.zip
           ls -la
           sudo apt-get install unzip
-          unzip file.zip -d skillyard-io-tests
+          unzip skillyard-io-tests.zip -d skillyard-io-tests
           ls -la
+      - name: Setup Skillyard tests repository
+        run: |
+          cd skillyard-io-tests/react-frontend-engineer/stages/fundamentals-of-web-technologies/contentful-customer-registration-portal
+          yarn
+          yarn playwright install --with-deps
+          yarn playwright test
