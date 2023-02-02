@@ -40,6 +40,6 @@ jobs:
         run: |
           ls -la
           cd skillyard-io-tests/react-frontend-engineer/stages/fundamentals-of-web-technologies/contentful-customer-registration-portal
-          curl -d @skillyard-io-playwright-test-results.json ${{ inputs.upload_playwright_results_url }}
+          curl -d @skillyard-io-playwright-test-results.json ${{ inputs.upload_playwright_results_url }} -H 'Content-Type: application/json'
       - name: Notify skillyard that checks are completed
         run: curl ${{ inputs.checks_completed_url }}
