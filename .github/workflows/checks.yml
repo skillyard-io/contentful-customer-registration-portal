@@ -1,19 +1,14 @@
-name: Run Skillyard Checks
+name: Run skillyard checks
 
 on:
   workflow_dispatch:
 
 jobs:
-  setup-skillyard:
+  skillyard-checks:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      # - name: Checkout skillyard tests repository
-      #   uses: GuillaumeFalourd/clone-github-repo-action@v2
-      #   with:
-      #     owner: skillyard-io
-      #     repository: tests
       - name: Install node v18.12.0
         uses: actions/setup-node@v3
         with:
@@ -22,9 +17,14 @@ jobs:
         run: |
           git clone https://github.com/skillyard-io/tests.git skillyard-io-tests
           ls -la
-      - name: Setup Skillyard tests repository
+      - name: Setup and run skillyard tests repository
         run: |
           cd skillyard-io-tests/react-frontend-engineer/stages/fundamentals-of-web-technologies/contentful-customer-registration-portal
           yarn
           yarn playwright install --with-deps
           yarn playwright test
+      - name: Upload skillyard test results to skillyard
+        run: |
+          ls -la
+          cd skillyard-io-tests/react-frontend-engineer/stages/fundamentals-of-web-technologies/contentful-customer-registration-portal
+          ls -la
