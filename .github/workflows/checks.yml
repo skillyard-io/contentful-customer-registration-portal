@@ -36,8 +36,8 @@ jobs:
           ls -la
       - name: Run solution
         run: |
-          cp skillyard-io-tests/react-frontend-engineer/stages/fundamentals-of-web-technologies/contentful-customer-registration-portal/run/Dockerfile ./${{ inputs.repository_name }}/
-          docker build -t contentful-customer-registration-portal:v1
+          cp skillyard-io-tests/react-frontend-engineer/stages/fundamentals-of-web-technologies/contentful-customer-registration-portal/run/Dockerfile .
+          docker build -t contentful-customer-registration-portal:v1 .
           docker run -d -p 8081:80 contentful-customer-registration-portal:v1
       - name: Setup and run skillyard tests repository
         run: |
