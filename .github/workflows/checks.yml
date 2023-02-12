@@ -3,6 +3,10 @@ name: Run skillyard checks
 on:
   workflow_dispatch:
     inputs:
+      repository_name:
+        required: true
+        type: string
+        description: The name of the repository, so we can CD into the folder
       vercel_url:
         required: true
         type: string
@@ -30,11 +34,17 @@ jobs:
         run: |
           git clone https://github.com/skillyard-io/tests.git skillyard-io-tests
           ls -la
+      - name: Run solution
+        run: /
+          cp skillyard-io-tests/react-frontend-engineer/stages/fundamentals-of-web-technologies/contentful-customer-registration-portal/run/Dockerfile ./${{ inputs.repository_name }}/
+          docker build -t contentful-customer-registration-portal:v1
+          docker run -d -p 8081:80 contentful-customer-registration-portal:v1
       - name: Setup and run skillyard tests repository
         run: |
           cd skillyard-io-tests/react-frontend-engineer/stages/fundamentals-of-web-technologies/contentful-customer-registration-portal
           yarn
           yarn playwright install --with-deps
+          export PLAYWRIGHT_SERVER_HOST=http://127.0.0.1:8081
           yarn playwright test || :
       - name: Upload skillyard test results to skillyard
         run: |
