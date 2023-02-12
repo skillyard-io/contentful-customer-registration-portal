@@ -35,7 +35,7 @@ jobs:
           git clone https://github.com/skillyard-io/tests.git skillyard-io-tests
           ls -la
       - name: Run solution
-        run: /
+        run: |
           cp skillyard-io-tests/react-frontend-engineer/stages/fundamentals-of-web-technologies/contentful-customer-registration-portal/run/Dockerfile ./${{ inputs.repository_name }}/
           docker build -t contentful-customer-registration-portal:v1
           docker run -d -p 8081:80 contentful-customer-registration-portal:v1
