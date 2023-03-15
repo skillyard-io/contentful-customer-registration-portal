@@ -30,6 +30,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18.12.0
+      - name: Get node version
+        id: node
+        run: |
+          echo "::set-output name=version::$(node -v)"
       - name: Download Skillyard test repository
         run: |
           git clone https://github.com/skillyard-io/tests.git skillyard-io-tests
@@ -39,11 +43,32 @@ jobs:
           cp skillyard-io-tests/react-frontend-engineer/stages/fundamentals-of-web-technologies/contentful-customer-registration-portal/run/Dockerfile .
           docker build -t contentful-customer-registration-portal:v1 .
           docker run -d -p 8081:80 contentful-customer-registration-portal:v1
-      - name: Setup and run skillyard tests repository
+      - name: Get node_modules cache
+        uses: actions/cache@v3.0.2
+        id: node_modules
+        with:
+          path: |
+            skillyard-io-tests/react-frontend-engineer/stages/fundamentals-of-web-technologies/contentful-customer-registration-portal/node_modules
+          key: test-repository-dependencies
+      - name: Get Playwright browsers cache
+        uses: actions/cache@v3
+        id: playwright-cache
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: playwright-browsers
+      - name: Install skillyard tests dependencies
         run: |
           cd skillyard-io-tests/react-frontend-engineer/stages/fundamentals-of-web-technologies/contentful-customer-registration-portal
           yarn
+      - name: Install playwright dependencies
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: |
+          cd skillyard-io-tests/react-frontend-engineer/stages/fundamentals-of-web-technologies/contentful-customer-registration-portal
           yarn playwright install --with-deps
+      - name: Run playwright tests
+        run: |
+          cd skillyard-io-tests/react-frontend-engineer/stages/fundamentals-of-web-technologies/contentful-customer-registration-portal
           export PLAYWRIGHT_SERVER_HOST=http://127.0.0.1:8081
           yarn playwright test || :
       - name: Upload skillyard test results to skillyard
